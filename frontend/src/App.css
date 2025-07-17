@@ -1,0 +1,167 @@
+:root {
+  --bg-light: #f9f9f9;
+  --text-light: #222;
+  --card-light: #fff;
+  --btn-bg-light: #007bff;
+  --btn-bg-light-hover: #0056b3;
+  --btn-text-light: #fff;
+
+  --bg-dark: #3d3c3d;
+  --text-dark: #eee;
+  --card-dark: #5e5b5e;
+  --btn-bg-dark: #bb86fc;
+  --btn-bg-dark-hover: #9a67ea;
+  --btn-text-dark: #121212;
+}
+
+/* Base styles */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.app-container {
+  min-height: 100vh;
+  padding: 2rem;
+  background-color: var(--bg-light);
+  color: var(--text-light);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.app-container.dark {
+  background-color: var(--bg-dark);
+  color: var(--text-dark);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.title {
+  margin: 0;
+}
+
+.toggle-btn {
+  background: none;
+  border: 2px solid currentColor;
+  border-radius: 20px;
+  padding: 0.3rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  color: inherit;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.toggle-btn:hover {
+  background-color: currentColor;
+  color: var(--bg-light);
+}
+
+.card {
+  background-color: var(--card-light);
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: 0 auto;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.app-container.dark .card {
+  background-color: var(--card-dark);
+  box-shadow: 0 6px 12px rgba(255, 255, 255, 0.1);
+}
+
+.input-area {
+  width: 100%;
+  resize: none;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  padding: 0.7rem;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background-color: inherit;
+  color: inherit;
+  transition: border-color 0.3s;
+}
+
+.input-area:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.button-group {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.btn {
+  flex: 1;
+  padding: 0.6rem 1.2rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: var(--btn-text-light);
+  background-color: var(--btn-bg-light);
+  transition: background-color 0.3s;
+}
+
+.btn:hover:not(:disabled) {
+  background-color: var(--btn-bg-light-hover);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn.secondary {
+  background-color: transparent;
+  border: 2px solid var(--btn-bg-light);
+  color: var(--btn-bg-light);
+}
+
+.btn.secondary:hover:not(:disabled) {
+  background-color: var(--btn-bg-light);
+  color: var(--btn-text-light);
+}
+
+/* Dark mode overrides for buttons */
+.app-container.dark .btn {
+  color: var(--btn-text-dark);
+  background-color: var(--btn-bg-dark);
+}
+
+.app-container.dark .btn:hover:not(:disabled) {
+  background-color: var(--btn-bg-dark-hover);
+}
+
+.app-container.dark .btn.secondary {
+  color: var(--btn-bg-dark);
+  border-color: var(--btn-bg-dark);
+}
+
+.app-container.dark .btn.secondary:hover:not(:disabled) {
+  background-color: var(--btn-bg-dark);
+  color: var(--btn-text-dark);
+}
+
+.response-box {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #e9ecef;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  color: #222;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.app-container.dark .response-box {
+  background-color: #1c0c63;
+  color: #eee;
+}
