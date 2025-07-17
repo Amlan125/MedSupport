@@ -13,7 +13,8 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.chat_message_histories import RedisChatMessageHistory
 
-load_dotenv()
+if os.getenv("OPENAI_API_KEY") is None:
+    load_dotenv()
 
 app = Flask(__name__)
 CORS(app)
@@ -22,6 +23,9 @@ CORS(app)
 api_key = os.getenv("OPENAI_API_KEY")
 api_base = os.getenv("OPENAI_BASE_URL", "https://openrouter.ai/api/v1")
 redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
+
+print("OPENAI_API_KEY:", api_key)
+
 
 # Initialize Redis client
 redis_client = redis.Redis.from_url(redis_url)
@@ -91,4 +95,7 @@ def add_cors_headers(response):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
+
