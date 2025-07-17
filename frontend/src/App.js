@@ -25,6 +25,8 @@ function App() {
     if (saved === "true") setDarkMode(true);
   }, []);
 
+  
+
   const speak = (text) => {
     if ("speechSynthesis" in window) {
       const cleanedText = text.replace(
@@ -33,13 +35,37 @@ function App() {
       );
       const utterance = new SpeechSynthesisUtterance(cleanedText.trim());
       utterance.lang = "en-US";
-      speechSynthesis.cancel();
+
+      const mouth = document.getElementById("mouth");
+      let interval;
+
+      utterance.onstart = () => {
+        interval = setInterval(() => {
+          if (mouth) {
+            const rx = 10 + Math.random() * 15;
+            const ry = 4 + Math.random() * 4;
+            mouth.setAttribute("rx", rx);
+            mouth.setAttribute("ry", ry);
+          }
+        }, 100);
+      };
+
+      utterance.onend = () => {
+        clearInterval(interval);
+        if (mouth) {
+          mouth.setAttribute("rx", 20);
+          mouth.setAttribute("ry", 5);
+        }
+      };
+
+      speechSynthesis.cancel(); // stop any previous speech
       speechSynthesis.speak(utterance);
     }
   };
 
+
   const askAssistant = async (inputText = query) => {
-    const res = await fetch("https://medsupport.onrender.com/api/ask", {
+    const res = await fetch("http://127.0.0.1:5000/api/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt: inputText }),
@@ -82,6 +108,14 @@ function App() {
         </button>
       </header>
 
+      {/* 👇 Add animated mouth avatar here */}
+      <div className="avatar">
+        <svg width="100" height="100">
+          <circle cx="50" cy="50" r="40" stroke="black" fill="#eee" />
+          <ellipse id="mouth" cx="50" cy="70" rx="20" ry="5" fill="black" />
+        </svg>
+      </div>
+
       <div className="card">
         <textarea
           className="input-area"
@@ -111,6 +145,8 @@ function App() {
           </div>
         )}
       </div>
+
+      <footer className="signature">Created by Amlan</footer>
     </div>
   );
 }
