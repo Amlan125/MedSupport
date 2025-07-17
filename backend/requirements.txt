@@ -8,3 +8,4 @@ langchain-openai
 langchain-huggingface
 chromadb
 sentence-transformers
+langchain-chroma
