@@ -1,11 +1,9 @@
-Flask
+flask
 flask-cors
 python-dotenv
 redis
 langchain
-langchain-community
 langchain-openai
 langchain-huggingface
-chromadb
+langchain-community
 sentence-transformers
-langchain-chroma
