@@ -1,4 +1,3 @@
-# app.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -7,8 +6,6 @@ import redis
 import re
 
 from langchain_openai import ChatOpenAI
-from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_chroma import Chroma
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.chat_message_histories import RedisChatMessageHistory
@@ -26,7 +23,6 @@ redis_url = os.getenv("REDIS_URL", "redis://localhost:6379")
 
 print("OPENAI_API_KEY:", api_key)
 
-
 # Initialize Redis client
 redis_client = redis.Redis.from_url(redis_url)
 
@@ -37,20 +33,17 @@ llm = ChatOpenAI(
     openai_api_base=api_base
 )
 
-embedding = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
-chroma_store = Chroma(persist_directory="chroma_db", embedding_function=embedding)
-retriever = chroma_store.as_retriever()
-
-# Chat prompt
+# Chat prompt without retriever
 prompt = ChatPromptTemplate.from_messages([
     ("system", "You are a helpful medical assistant."),
     MessagesPlaceholder(variable_name="history"),
     ("human", "{input}")
 ])
 
-# Chain + persistent Redis message history
+# Chain using only prompt and LLM
 chain = prompt | llm
 
+# Persistent Redis chat message history
 chat_runnable = RunnableWithMessageHistory(
     chain,
     lambda session_id: RedisChatMessageHistory(
@@ -62,7 +55,6 @@ chat_runnable = RunnableWithMessageHistory(
 )
 
 def strip_markdown(text):
-    # Remove Markdown headers, symbols, and emojis for clean plain text
     text = re.sub(r"[#*_`>|~\-]", "", text)            # remove markdown special chars
     text = re.sub(r'[^\w\s,.?!]', '', text)            # remove emojis/non-word chars except punctuation
     text = re.sub(r'\n+', ' ', text)                    # collapse newlines to spaces
@@ -98,4 +90,3 @@ if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
-
