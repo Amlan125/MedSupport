@@ -39,7 +39,7 @@ function App() {
   };
 
   const askAssistant = async (inputText = query) => {
-    const res = await fetch("http://127.0.0.1:5000/api/ask", {
+    const res = await fetch("https://medsupport.onrender.com/api/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt: inputText }),
