@@ -1,0 +1,10 @@
+Flask
+flask-cors
+python-dotenv
+redis
+langchain
+langchain-community
+langchain-openai
+langchain-huggingface
+chromadb
+sentence-transformers
