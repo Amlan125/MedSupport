@@ -68,7 +68,39 @@ def handle_ask():
 
     data = request.get_json()
     user_input = data.get("prompt", "")
+    language = data.get("language", "en-US")
     session_id = data.get("session_id", "user-123")
+
+    # Map language code to human-readable language name for prompt
+    lang_map = {
+        "en-US": "English",
+        "hi-IN": "Hindi",
+        "de-DE": "German",
+        "bn-IN": "Bengali"
+    }
+    lang_name = lang_map.get(language, "English")
+
+    # Modify system prompt to instruct model to answer in target language
+    system_prompt_text = f"You are a helpful medical assistant. Please answer all questions in {lang_name}."
+
+    # Build a new prompt chain with updated system message
+    prompt = ChatPromptTemplate.from_messages([
+        ("system", system_prompt_text),
+        MessagesPlaceholder(variable_name="history"),
+        ("human", "{input}")
+    ])
+
+    # Re-create chain and runnable with updated prompt
+    chain = prompt | llm
+    chat_runnable = RunnableWithMessageHistory(
+        chain,
+        lambda session_id: RedisChatMessageHistory(
+            session_id=session_id,
+            url=redis_url
+        ),
+        input_messages_key="input",
+        history_messages_key="history"
+    )
 
     response = chat_runnable.invoke(
         {"input": user_input},
@@ -77,6 +109,7 @@ def handle_ask():
 
     cleaned = strip_markdown(response.content)
     return jsonify({"answer": cleaned})
+
 
 @app.after_request
 def add_cors_headers(response):
