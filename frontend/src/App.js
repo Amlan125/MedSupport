@@ -75,13 +75,14 @@ function App() {
     const res = await fetch("https://medsupport.onrender.com/api/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: inputText }),
+      body: JSON.stringify({ prompt: inputText, language }), // send language here
     });
-
+  
     const data = await res.json();
     setResponse(data.answer);
     speak(data.answer);
   };
+
 
   // Voice input
   const startListening = () => {
