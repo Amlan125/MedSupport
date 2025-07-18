@@ -9,14 +9,16 @@ function App() {
   const [response, setResponse] = useState("");
   const [listening, setListening] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [language, setLanguage] = useState("en-US");
 
-  // Load dark mode preference
+  // Load preferences
   useEffect(() => {
-    const saved = localStorage.getItem("darkMode");
-    if (saved === "true") setDarkMode(true);
+    const savedMode = localStorage.getItem("darkMode");
+    const savedLang = localStorage.getItem("language");
+    if (savedMode === "true") setDarkMode(true);
+    if (savedLang) setLanguage(savedLang);
   }, []);
 
-  // Toggle dark mode
   const toggleDarkMode = () => {
     setDarkMode((prev) => {
       const newMode = !prev;
@@ -25,7 +27,13 @@ function App() {
     });
   };
 
-  // Speak response with animated mouth
+  const handleLanguageChange = (e) => {
+    const newLang = e.target.value;
+    setLanguage(newLang);
+    localStorage.setItem("language", newLang);
+  };
+
+  // Speak response
   const speak = (text) => {
     if ("speechSynthesis" in window) {
       const cleanedText = text.replace(
@@ -33,7 +41,7 @@ function App() {
         ""
       );
       const utterance = new SpeechSynthesisUtterance(cleanedText.trim());
-      utterance.lang = "en-US";
+      utterance.lang = language;
 
       const mouth = document.getElementById("mouth");
       let interval;
@@ -62,7 +70,7 @@ function App() {
     }
   };
 
-  // Send query to Flask API
+  // API call
   const askAssistant = async (inputText = query) => {
     const res = await fetch("https://medsupport.onrender.com/api/ask", {
       method: "POST",
@@ -75,7 +83,7 @@ function App() {
     speak(data.answer);
   };
 
-  // Start voice recognition
+  // Voice input
   const startListening = () => {
     if (!SpeechRecognition) {
       alert("Speech recognition not supported.");
@@ -83,7 +91,7 @@ function App() {
     }
 
     const recognition = new SpeechRecognition();
-    recognition.lang = "en-US";
+    recognition.lang = language;
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
 
@@ -102,14 +110,29 @@ function App() {
 
   return (
     <div className={`app-container ${darkMode ? "dark" : "light"}`}>
-      <header>
+      <header className="header">
         <h1 className="title">🩺 MedSupport Assistant</h1>
-        <button className="toggle-btn" onClick={toggleDarkMode}>
-          {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
-        </button>
+
+        <div className="controls">
+          <select
+            className="dropdown"
+            value={language}
+            onChange={handleLanguageChange}
+            title="Select Language"
+          >
+            <option value="en-US">English</option>
+            <option value="hi-IN">Hindi</option>
+            <option value="de-DE">German</option>
+            <option value="bn-IN">Bengali (Assamese alt)</option>
+          </select>
+
+          <button className="toggle-btn" onClick={toggleDarkMode}>
+            {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
+          </button>
+        </div>
       </header>
 
-      {/* Avatar Section */}
+      {/* Avatar */}
       <div className="avatar">
         <svg width="150" height="150" viewBox="0 0 150 150">
           <circle cx="75" cy="75" r="60" fill="#fce4b2" stroke="#333" strokeWidth="2" />
@@ -124,6 +147,7 @@ function App() {
         </svg>
       </div>
 
+      {/* Input area */}
       <div className="card">
         <textarea
           className="input-area"
