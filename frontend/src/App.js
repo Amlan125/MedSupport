@@ -10,7 +10,13 @@ function App() {
   const [listening, setListening] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
-  // Toggle dark mode and save preference to localStorage
+  // Load dark mode preference
+  useEffect(() => {
+    const saved = localStorage.getItem("darkMode");
+    if (saved === "true") setDarkMode(true);
+  }, []);
+
+  // Toggle dark mode
   const toggleDarkMode = () => {
     setDarkMode((prev) => {
       const newMode = !prev;
@@ -19,14 +25,7 @@ function App() {
     });
   };
 
-  // Load saved preference on mount
-  useEffect(() => {
-    const saved = localStorage.getItem("darkMode");
-    if (saved === "true") setDarkMode(true);
-  }, []);
-
-  
-
+  // Speak response with animated mouth
   const speak = (text) => {
     if ("speechSynthesis" in window) {
       const cleanedText = text.replace(
@@ -58,14 +57,14 @@ function App() {
         }
       };
 
-      speechSynthesis.cancel(); // stop any previous speech
+      speechSynthesis.cancel();
       speechSynthesis.speak(utterance);
     }
   };
 
-
+  // Send query to Flask API
   const askAssistant = async (inputText = query) => {
-    const res = await fetch("https://medsupport.onrender.com/api/ask", {
+    const res = await fetch("http://127.0.0.1:5000/api/ask", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt: inputText }),
@@ -76,6 +75,7 @@ function App() {
     speak(data.answer);
   };
 
+  // Start voice recognition
   const startListening = () => {
     if (!SpeechRecognition) {
       alert("Speech recognition not supported.");
@@ -96,6 +96,7 @@ function App() {
     };
     recognition.onerror = () => setListening(false);
     recognition.onend = () => setListening(false);
+
     recognition.start();
   };
 
@@ -108,11 +109,18 @@ function App() {
         </button>
       </header>
 
-      {/* 👇 Add animated mouth avatar here */}
+      {/* Avatar Section */}
       <div className="avatar">
-        <svg width="100" height="100">
-          <circle cx="50" cy="50" r="40" stroke="black" fill="#eee" />
-          <ellipse id="mouth" cx="50" cy="70" rx="20" ry="5" fill="black" />
+        <svg width="150" height="150" viewBox="0 0 150 150">
+          <circle cx="75" cy="75" r="60" fill="#fce4b2" stroke="#333" strokeWidth="2" />
+          <ellipse className="eye" cx="50" cy="60" rx="8" ry="8" fill="black" />
+          <ellipse className="eye" cx="100" cy="60" rx="8" ry="8" fill="black" />
+          <ellipse className="eyelid" cx="50" cy="60" rx="8" ry="8" fill="#fce4b2" />
+          <ellipse className="eyelid" cx="100" cy="60" rx="8" ry="8" fill="#fce4b2" />
+          <ellipse id="mouth" cx="75" cy="100" rx="20" ry="5" fill="black" />
+          <polygon points="72,75 75,85 78,75" fill="#d8a97d" />
+          <circle cx="15" cy="75" r="10" fill="#fce4b2" />
+          <circle cx="135" cy="75" r="10" fill="#fce4b2" />
         </svg>
       </div>
 
