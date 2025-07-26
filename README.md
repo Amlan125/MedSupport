@@ -26,7 +26,7 @@ MedSupport/
 │   ├── requirements.txt      # Python dependencies
 │   ├── Dockerfile            # Container setup for backend
 │   ├── .dockerignore         # Docker build ignores
-│   └── .env                  # Environment variables (API keys, etc.)
+│   └── .env                  # Environment variables (API keys, etc.) 
 ├── frontend/
 │   ├── public/               # Static assets (icons, index.html)
 │   ├── package.json          # React project dependencies and scripts
