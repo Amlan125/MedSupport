@@ -19,22 +19,22 @@ Features voice input, speech synthesis, multilingual support, and persistent cha
 
 ##  **Project structure**
 
+```plaintext
 MedSupport/
 ├── backend/
-│   ├── app.py
-│   ├── requirements.txt
-│   ├── Dockerfile
-│   ├── .dockerignore
-│   └── .env
+│   ├── app.py                # Flask app, handles API and LLM logic
+│   ├── requirements.txt      # Python dependencies
+│   ├── Dockerfile            # Container setup for backend
+│   ├── .dockerignore         # Docker build ignores
+│   └── .env                  # Environment variables (API keys, etc.)
 ├── frontend/
-│   ├── public/
-│   ├── package.json
+│   ├── public/               # Static assets (icons, index.html)
+│   ├── package.json          # React project dependencies and scripts
 │   └── src/
-│       ├── App.js
-│       └── App.css
-└── README.md
-
-
+│       ├── App.js            # Main React app (UI, voice, API calls)
+│       └── App.css           # Styling and dark mode support
+└── README.md                 # Project documentation
+```
 ---
 
 ##  **Getting started**
