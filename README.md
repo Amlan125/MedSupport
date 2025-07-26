@@ -23,10 +23,10 @@ Features voice input, speech synthesis, multilingual support, and persistent cha
 MedSupport/
 ├── backend/
 │   ├── app.py                # Flask app, handles API and LLM logic
-│   ├── requirements.txt      # Python dependencies
 │   ├── Dockerfile            # Container setup for backend
 │   ├── .dockerignore         # Docker build ignores
-│   └── .env                  # Environment variables (API keys, etc.) 
+│   ├── .env                  # Environment variables (OPENAI_API_KEY)
+│   └── requirements.txt      # Python dependencies
 ├── frontend/
 │   ├── public/               # Static assets (icons, index.html)
 │   ├── package.json          # React project dependencies and scripts
