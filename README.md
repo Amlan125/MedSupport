@@ -4,21 +4,20 @@ MedSupport is a full-stack AI medical assistant web app built with **Flask**, **
 It lets users ask medical questions via text or voice, and get real-time answers powered by advanced language models and embeddings.  
 Features voice input, speech synthesis, multilingual support, and persistent chat history.
 
-![MedSupport Screenshot](https://your-screenshot-url.com) <!-- optional: add screenshot -->
 
 ---
 
-## ✨ **Features**
-- 🧠 **AI Q&A:** Uses LangChain + OpenAI / HuggingFace embeddings to answer user questions.
-- 🎙️ **Voice input & output:** Users can speak their questions, and the assistant replies out loud.
-- 🌗 **Dark / Light mode** toggle.
-- 🌐 **Multilingual support:** Switch between English, Hindi, German, and Bengali.
-- 🔄 **Persistent chat history:** Stored in Redis so conversations are remembered across sessions.
-- 🧩 **Clean responsive frontend:** Built with React and animated SVG avatar.
+##  **Features**
+-  **AI Q&A:** Uses LangChain + OpenAI / HuggingFace embeddings to answer user questions.
+-  **Voice input & output:** Users can speak their questions, and the assistant replies out loud.
+-  **Dark / Light mode** toggle.
+-  **Multilingual support:** Switch between English, Hindi, German, and Bengali.
+-  **Persistent chat history:** Stored in Redis so conversations are remembered across sessions.
+-  **Clean responsive frontend:** Built with React and animated SVG avatar.
 
 ---
 
-## 📦 **Project structure**
+##  **Project structure**
 
 MedSupport/
 ├── backend/
@@ -38,15 +37,15 @@ MedSupport/
 
 ---
 
-## 🚀 **Getting started**
+##  **Getting started**
 
-### 1️⃣ Clone the repo
+### 1. Clone the repo
 ```bash
 git clone https://github.com/yourusername/MedSupport.git
 cd MedSupport
 ```
 
-2️⃣ Backend setup
+2. Backend setup
 ```bash
 cd backend
 python -m venv venv
@@ -66,7 +65,7 @@ Run backend:
 python app.py
 ```
 
-3️⃣ Frontend setup
+3. Frontend setup
 ```
 cd frontend
 npm install
@@ -76,7 +75,7 @@ npm start
 Frontend runs on: http://localhost:3000
 Backend runs on: http://127.0.0.1:5000
 
-🐳 Optional: Docker deployment
+ Optional: Docker deployment
 Build and run backend:
 ```
 cd backend
@@ -85,29 +84,24 @@ docker run -p 5000:5000 medsupport-backend
 ```
 Frontend can also be containerized similarly.
 
-⚙️ Tech stack
+## Tech stack
 Backend: Flask, LangChain, OpenAI, HuggingFace, ChromaDB, Redis
 
 Frontend: React, SpeechRecognition API, SpeechSynthesis API
 
 Others: Docker, dotenv
 
-🎨 Screenshots & Demo
-(Add screenshots or a short demo video here to show features visually)
 
-📄 License
-This project is licensed under the MIT License.
+##  Author
+ Amlan (abgohain77@gmail.com)
 
-✍️ Author
-👤 Amlan
+ Built as a side project to explore AI & voice UI.
 
-🌱 Built as a side project to explore AI & voice UI.
-
-⭐ Contributing
+## Contributing
 Contributions, issues and feature requests are welcome!
 Feel free to open an issue or submit a PR.
 
-❤️ Acknowledgements
+## Acknowledgements
 OpenAI
 
 LangChain
